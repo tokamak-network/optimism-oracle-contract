@@ -30,7 +30,7 @@ async function main() {
   const provider = new JsonRpcProvider(`https://kovan.infura.io/v3/${INFURA_PROJECT_ID}`);
   const deployer = new ethers.Wallet(PRIVATE_KEY, provider);
 
-  await deploy(deployer, 'L2Token', {});
+  await deploy(deployer, 'L1EIP155TxDecoder', {});
 }
 
 main()

@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile:kovan": "npx hardhat compile --network kovan",
     "compile:optimistic-kovan": "npx hardhat compile --network optimistic-kovan",
+    "call:kovan": "npx hardhat run scripts/call.kovan.js",
     "deploy:kovan": "npx hardhat run scripts/deploy.kovan.js",
     "deploy:optimistic-kovan": "npx hardhat run scripts/deploy.optimistic-kovan.js"
   },

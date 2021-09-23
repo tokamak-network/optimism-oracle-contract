@@ -12,14 +12,23 @@ module.exports = {
     solcVersion: '0.7.6+commit.3b061308',
   },
   networks: {
+    "mainnet": {
+      url: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
+      accounts: [`0x${PRIVATE_KEY}`],
+    },
     "kovan": {
       url: `https://kovan.infura.io/v3/${INFURA_PROJECT_ID}`,
       accounts: [`0x${PRIVATE_KEY}`],
+    },
+    "optimistic-mainnet": {
+      url: "https://mainnet.optimism.io",
+      accounts: [`0x${PRIVATE_KEY}`],
+      ovm: true,
     },
     "optimistic-kovan": {
       url: "https://kovan.optimism.io",
       accounts: [`0x${PRIVATE_KEY}`],
       ovm: true,
-    }
+    },
   }
 };
