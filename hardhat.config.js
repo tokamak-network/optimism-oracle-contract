@@ -4,6 +4,7 @@ require("dotenv").config()
 
 const env = process.env
 const INFURA_PROJECT_ID = env.INFURA_PROJECT_ID
+const ALCHEMY_KEY = env.ALCHEMY_KEY
 const PRIVATE_KEY = env.PRIVATE_KEY
 
 module.exports = {
@@ -12,6 +13,14 @@ module.exports = {
     solcVersion: '0.7.6+commit.3b061308',
   },
   networks: {
+    "hardhat": {
+      "forking": {
+        // "url": `https://eth-kovan.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+        // "blockNumber": 27391022,
+        "url": `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+        "blockNumber": 13318263
+      },
+    },
     "mainnet": {
       url: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
       accounts: [`0x${PRIVATE_KEY}`],

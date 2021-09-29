@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile:kovan": "npx hardhat compile --network kovan",
     "compile:optimistic-kovan": "npx hardhat compile --network optimistic-kovan",
-    "call:kovan": "npx hardhat run scripts/call.kovan.js",
     "deploy:kovan": "npx hardhat run scripts/deploy.kovan.js",
+    "test:kovan": "npx hardhat run scripts/test.oracle.js",
     "deploy:optimistic-kovan": "npx hardhat run scripts/deploy.optimistic-kovan.js"
   },
   "keywords": [],
@@ -19,10 +19,12 @@
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^3.3.0",
+    "@openzeppelin/contracts-upgradeable": "^3.3.0",
     "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.7",
-    "hardhat": "^2.6.4"
+    "hardhat": "^2.6.4",
+    "rlp": "^2.2.6"
   }
 }
