@@ -6,8 +6,12 @@ const env = process.env
 const INFURA_PROJECT_ID = env.INFURA_PROJECT_ID
 const PRIVATE_KEY = env.PRIVATE_KEY
 
+let L1Token = env.L1_TOKEN
+let L1ClaimableToken = env.L1_CLAIMABLE_TOKEN
+let L1Oracle = env.L1_ORACLE
+
 async function deploy (deployer, contract, txOpts) {
-  const deployedContract = await deployContract(deployer, await ethers.getContractFactory(contract), [txOpts]);
+  const deployedContract = await deployContract(deployer, await ethers.getContractFactory(contract), txOpts);
   console.log(`${contract}:`, deployedContract.address);
 
   return deployedContract;
@@ -26,16 +30,28 @@ async function deployContract(
   return contract;
 }
 
+const l1TxOpts = {
+  gasLimit: 200000
+}
+
 async function main() {
   const provider = new JsonRpcProvider(`https://kovan.infura.io/v3/${INFURA_PROJECT_ID}`);
   const deployer = new ethers.Wallet(PRIVATE_KEY, provider);
+  const CanonicalTransactionChain = '0xe28c499EB8c36C0C18d1bdCdC47a51585698cb93';
 
-  const claimableToken = await deploy(deployer, 'ClaimableToken', ["Claimable Token", "CTK"]);
+  L1Token ?
+  console.log(`L1Token has already been deployed: ${L1Token}`) :
+  L1Token = await deploy(deployer, 'L1Token', ['L1 Tokamak Network Token', 'L1TON', '0x0dc1A9bBe35aAaaC1A9FFAa8b423E2f04AA5ad8e', "100000000000000000000"])
 
-  const ctc = "0xe28c499EB8c36C0C18d1bdCdC47a51585698cb93"
-  const oracle = await deploy(deployer, 'L1Oracle', [ctc, claimableToken.address]);
+  L1ClaimableToken ?
+  console.log(`L1ClaimableToken has already been deployed: ${L1ClaimableToken}`) :
+  L1ClaimableToken = await deploy(deployer, 'L1ClaimableToken', ['L1 Claimable Token', 'L1CTOKEN'])
 
-  await claimableToken.transferOwnership(oracle.address, { gasLimit: 600000 });
+  L1Oracle ?
+  console.log(`L1Oracle has already been deployed: ${L1Oracle}`) :
+  L1Oracle = await deploy(deployer, 'L1Oracle', [CanonicalTransactionChain, L1ClaimableToken.address])
+
+  await L1ClaimableToken.transferOwnership(L1Oracle.address, l1TxOpts)
 }
 
 main()
