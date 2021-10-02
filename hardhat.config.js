@@ -10,7 +10,7 @@ const PRIVATE_KEY = env.PRIVATE_KEY
 module.exports = {
   solidity: '0.7.6',
   ovm: {
-    solcVersion: '0.7.6+commit.3b061308',
+    solcVersion: '0.7.6',
   },
   networks: {
     "hardhat": {
