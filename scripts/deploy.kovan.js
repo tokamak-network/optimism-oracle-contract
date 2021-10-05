@@ -9,6 +9,7 @@ const PRIVATE_KEY = env.PRIVATE_KEY
 let L1Token = env.L1_TOKEN
 let L1ClaimableToken = env.L1_CLAIMABLE_TOKEN
 let L1Oracle = env.L1_ORACLE
+let L1Auction = env.L1_AUCTION
 
 async function deploy (deployer, contract, txOpts) {
   const deployedContract = await deployContract(deployer, await ethers.getContractFactory(contract), txOpts);
@@ -30,18 +31,18 @@ async function deployContract(
   return contract;
 }
 
-const l1TxOpts = {
-  gasLimit: 200000
-}
-
 async function main() {
   const provider = new JsonRpcProvider(`https://kovan.infura.io/v3/${INFURA_PROJECT_ID}`);
   const deployer = new ethers.Wallet(PRIVATE_KEY, provider);
+
   const CanonicalTransactionChain = '0xe28c499EB8c36C0C18d1bdCdC47a51585698cb93';
+
+  const initialAccount = '0x0dc1A9bBe35aAaaC1A9FFAa8b423E2f04AA5ad8e'
+  const initialAmount = '100000000000000000000000000'
 
   L1Token ?
   console.log(`L1Token has already been deployed: ${L1Token}`) :
-  L1Token = await deploy(deployer, 'L1Token', ['L1 Tokamak Network Token', 'L1TON', '0x0dc1A9bBe35aAaaC1A9FFAa8b423E2f04AA5ad8e', "100000000000000000000"])
+  L1Token = await deploy(deployer, 'L1Token', ['L1 Tokamak Network Token', 'L1TON', initialAccount, initialAmount])
 
   L1ClaimableToken ?
   console.log(`L1ClaimableToken has already been deployed: ${L1ClaimableToken}`) :
@@ -49,9 +50,14 @@ async function main() {
 
   L1Oracle ?
   console.log(`L1Oracle has already been deployed: ${L1Oracle}`) :
-  L1Oracle = await deploy(deployer, 'L1Oracle', [CanonicalTransactionChain, L1ClaimableToken.address])
+  L1Oracle = await deploy(deployer, 'L1Oracle', [CanonicalTransactionChain, !L1ClaimableToken.address ? L1ClaimableToken : L1ClaimableToken.address])
 
-  await L1ClaimableToken.transferOwnership(L1Oracle.address, l1TxOpts)
+  L1Auction ?
+  console.log(`L1Auction has already been deployed: ${L1Auction}`) :
+  L1Auction = await deploy(deployer, 'L1Auction', [
+    !L1ClaimableToken.address ? L1ClaimableToken : L1ClaimableToken.address,
+    !L1Oracle.address ? L1Oracle : L1Oracle.address,
+  ])
 }
 
 main()

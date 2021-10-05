@@ -47,22 +47,18 @@ async function deployContract(
   return contract;
 }
 
-const l2TxOpts = {
-  gasLimit: 500010,
-}
-
 async function main() {
   const provider = new JsonRpcProvider('https://kovan.optimism.io');
   const deployer = new ethers.Wallet(PRIVATE_KEY, provider);
 
   const L2Bridge = '0x4200000000000000000000000000000000000010'
-  const L1Oracle = '0x0Cc14671122b22cAD4a02762a39FBe471F4CB81A'
+  const L1Token = '0x3B43DBf84CC5edD1E2499F6d7A9b242D30bA4C56'
 
   L2Token ?
   console.log(`L2Token has already been deployed: ${L2Token}`) :
   await deploy(deployer, 'L2Token', [
-    '0x4200000000000000000000000000000000000010',
-    '0x2f0E2eE646434EadfB655DB026e56E7a71B89B99',
+    L2Bridge,
+    L1Token,
     'L2 Tokamak Network Token',
     'L2TON',
   ]);
@@ -70,8 +66,6 @@ async function main() {
   L2BridgeWrapper ?
   console.log(`L2BridgeWrapper has already been deployed: ${L2BridgeWrapper}`) :
   L2BridgeWrapper = await deploy(deployer, 'L2BridgeWrapper', []);
-
-  await L2BridgeWrapper.initialize(L2Bridge, L1Oracle, l2TxOpts);
 }
 
 main()
