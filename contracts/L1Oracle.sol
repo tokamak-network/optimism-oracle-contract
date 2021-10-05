@@ -21,6 +21,8 @@ contract L1Oracle {
     uint256 public tokenId;
     bytes internal FASTWITHDRAW_SELECTOR = "0x7090fd90"; // fastWithdraw(address,address,address,address,uint256,uint256,uint32,bytes)
 
+    mapping(uint256 => bool) public minted; // l2Txindex => minted
+
     constructor (address _ctc, address _cToken) public {
         ctc = iOVM_CanonicalTransactionChain(_ctc);
         claimableToken = L1ClaimableToken(_cToken);
@@ -39,9 +41,14 @@ contract L1Oracle {
         uint256 prevTotalElements = _batchHeader.prevTotalElements; // 100
         uint256 index = _inclusionProof.index; // 10
 
+        uint256 txIndex = prevTotalElements.add(index); // CompilerError: Stack too deep, try removing local variables.
         require(
-            l2TxIndex == prevTotalElements.add(index),
+            l2TxIndex == txIndex,
             "INVALID_INDEX"
+        );
+        require(
+            !minted[txIndex],
+            "ALREADY_MINTED"
         );
 
         require(
@@ -62,24 +69,29 @@ contract L1Oracle {
 
         bytes memory data = decodedTx.data;
         bytes memory selector = Lib_BytesUtils.slice(data, 0, 4);
-        require(
-            keccak256(FASTWITHDRAW_SELECTOR) == keccak256(selector),
-            "INVALID_SELECTOR"
-        );
+        // require(
+        //     keccak256(FASTWITHDRAW_SELECTOR) == keccak256(selector),
+        //     "INVALID_SELECTOR"
+        // );
 
         bytes memory args = Lib_BytesUtils.slice(data, 4);
         (address _l1Token, address _l2Token, uint256 _amount, uint256 _fee) = getTokenInfo(args);
 
         claimableToken.mint(
             tokenId,
-            prevTotalElements.add(index),
+            txIndex,
             _l1Token,
             _l2Token,
             _amount,
             _fee
         );
+        minted[txIndex] = true;
 
         tokenId++;
+    }
+
+    function setApprovalForAll (address operator, bool approved) public {
+        claimableToken.setApprovalForAll(operator, approved);
     }
 
     // CompilerError: Stack too deep, try removing local variables.

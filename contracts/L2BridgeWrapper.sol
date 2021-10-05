@@ -55,7 +55,7 @@ contract L2BridgeWrapper {
         // NOTE: _amount + _fee will burn on L2.
         uint256 amount = SafeMath.add(_amount, _fee);
         require(
-            IERC20(_l2Token).transfer(address(this), amount),
+            IERC20(_l2Token).transferFrom(msg.sender, address(this), amount),
             "TRANSFER_FAILURE"
         );
 
