@@ -10,6 +10,7 @@ contract L1ClaimableToken is ERC721 {
 
     struct TokenInfo {
         uint256 transactionIndex;
+        address origin,
         address l1Token;
         address l2Token;
         uint256 amount;
@@ -31,6 +32,7 @@ contract L1ClaimableToken is ERC721 {
     function mint(
         uint256 tokenId,
         uint256 transactionIndex,
+        address origin,
         address l1Token,
         address l2Token,
         uint256 amount,
@@ -44,6 +46,7 @@ contract L1ClaimableToken is ERC721 {
 
         TokenInfo storage tokenInfo = tokenInfos[tokenId];
         tokenInfo.transactionIndex = transactionIndex;
+        tokenInfo.origin = origin;
         tokenInfo.l1Token = l1Token;
         tokenInfo.l2Token = l2Token;
         tokenInfo.amount = amount;

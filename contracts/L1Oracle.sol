@@ -75,11 +75,12 @@ contract L1Oracle {
         // );
 
         bytes memory args = Lib_BytesUtils.slice(data, 4);
-        (address _l1Token, address _l2Token, uint256 _amount, uint256 _fee) = getTokenInfo(args);
+        (address _origin, address _l1Token, address _l2Token, uint256 _amount, uint256 _fee) = getTokenInfo(args);
 
         claimableToken.mint(
             tokenId,
             txIndex,
+            _origin,
             _l1Token,
             _l2Token,
             _amount,
@@ -95,7 +96,7 @@ contract L1Oracle {
     }
 
     // CompilerError: Stack too deep, try removing local variables.
-    function getTokenInfo(bytes memory args) internal returns (address, address, uint256, uint256) {
+    function getTokenInfo(bytes memory args) internal returns (address, address, address, uint256, uint256) {
         (
           address _origin,
           address _l1Token,
@@ -110,6 +111,6 @@ contract L1Oracle {
             (address, address, address, address, uint256, uint256, uint32, bytes)
         );
 
-        return (_l1Token, _l2Token, _amount, _fee);
+        return (_origin, _l1Token, _l2Token, _amount, _fee);
     }
 }
