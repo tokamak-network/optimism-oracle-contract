@@ -8,6 +8,8 @@ import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract L1ClaimableToken is ERC721 {
 
+    event Minted(uint256 indexed tokenId, uint256 indexed l2TxIndex);
+
     struct TokenInfo {
         uint256 tokenId;
         uint256 transactionIndex;
@@ -53,5 +55,7 @@ contract L1ClaimableToken is ERC721 {
         tokenInfo.l2Token = l2Token;
         tokenInfo.amount = amount;
         tokenInfo.fee = fee;
+
+        emit Minted(tokenId, transactionIndex);
     }
 }

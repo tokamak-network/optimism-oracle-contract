@@ -17,6 +17,14 @@ contract L2BridgeWrapper {
 
     bool public initialized;
 
+    event FastWithdrawalInitiated (
+        address indexed _from,
+        address indexed _to,
+        uint256 _amount,
+        uint256 _fee,
+        bytes _data
+    );
+
     function initialize (address _l2TokenBridge, address _l1Oracle) public {
         require(!initialized, "ALREADY_INITIALIZED");
         l2TokenBridge = iOVM_L2ERC20Bridge(_l2TokenBridge);
@@ -66,5 +74,7 @@ contract L2BridgeWrapper {
             _l1Gas,
             _data
         );
+
+        emit FastWithdrawalInitiated(_origin, _to, _amount, _fee, _data);
     }
 }
