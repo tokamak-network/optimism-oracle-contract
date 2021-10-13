@@ -37,12 +37,9 @@ async function main() {
 
   const CanonicalTransactionChain = '0xe28c499EB8c36C0C18d1bdCdC47a51585698cb93';
 
-  const initialAccount = '0x0dc1A9bBe35aAaaC1A9FFAa8b423E2f04AA5ad8e'
-  const initialAmount = '100000000000000000000000000'
-
   L1Token ?
   console.log(`L1Token has already been deployed: ${L1Token}`) :
-  L1Token = await deploy(deployer, 'L1Token', ['L1 Tokamak Network Token', 'L1TON', initialAccount, initialAmount])
+  L1Token = await deploy(deployer, 'L1Token', ['L1 Tokamak Network Token', 'L1TON'])
 
   L1ClaimableToken ?
   console.log(`L1ClaimableToken has already been deployed: ${L1ClaimableToken}`) :
