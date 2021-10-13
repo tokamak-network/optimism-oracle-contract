@@ -24,8 +24,9 @@ contract L1Auction {
             "INVALID_OWNER"
         );
 
-        (uint256 transactionIndex, address origin, address l1Token, address l2Token, uint256 amount, uint256 fee)
+        (uint256 id, uint256 transactionIndex, address origin, address l1Token, address l2Token, uint256 amount, uint256 fee)
             = claimableToken.tokenInfos(tokenId);
+        require(id == tokenId, "INVALID_TOKENID");
 
         require(
             IERC20(l1Token).transferFrom(msg.sender, origin, amount),
