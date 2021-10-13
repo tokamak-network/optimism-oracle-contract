@@ -9,8 +9,9 @@ import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 contract L1ClaimableToken is ERC721 {
 
     struct TokenInfo {
+        uint256 tokenId;
         uint256 transactionIndex;
-        address origin,
+        address origin;
         address l1Token;
         address l2Token;
         uint256 amount;
@@ -45,6 +46,7 @@ contract L1ClaimableToken is ERC721 {
         _mint(msg.sender, tokenId);
 
         TokenInfo storage tokenInfo = tokenInfos[tokenId];
+        tokenInfo.tokenId = tokenId;
         tokenInfo.transactionIndex = transactionIndex;
         tokenInfo.origin = origin;
         tokenInfo.l1Token = l1Token;
