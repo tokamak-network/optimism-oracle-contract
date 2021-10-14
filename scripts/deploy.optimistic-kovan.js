@@ -7,6 +7,7 @@ require("dotenv").config()
 const env = process.env
 const PRIVATE_KEY = env.PRIVATE_KEY
 
+const L1Token = env.L1_TOKEN
 let L2Token = env.L2_TOKEN
 let L2BridgeWrapper = env.L2_BRIDGE_WRAPPER
 
@@ -52,7 +53,6 @@ async function main() {
   const deployer = new ethers.Wallet(PRIVATE_KEY, provider);
 
   const L2Bridge = '0x4200000000000000000000000000000000000010'
-  const L1Token = '0x3B43DBf84CC5edD1E2499F6d7A9b242D30bA4C56'
 
   L2Token ?
   console.log(`L2Token has already been deployed: ${L2Token}`) :
