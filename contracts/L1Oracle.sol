@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
-// @unsupported: ovm
+
 pragma solidity >=0.7.6;
 pragma abicoder v2;
 
-import { Lib_OVMCodec } from "./optimism/libraries/codec/Lib_OVMCodec.sol";
-import { Lib_EIP155Tx } from "./optimism/libraries/codec/Lib_EIP155Tx.sol";
-import { Lib_BytesUtils } from "./optimism/libraries/utils/Lib_BytesUtils.sol";
-import { iOVM_CanonicalTransactionChain } from "./optimism/iOVM/chain/iOVM_CanonicalTransactionChain.sol";
-import { OVM_StateCommitmentChain } from "./optimism/OVM/chain/OVM_StateCommitmentChain.sol";
+import { Lib_OVMCodec } from "@eth-optimism/contracts/libraries/codec/Lib_OVMCodec.sol";
+import { Lib_EIP155Tx } from "@eth-optimism/contracts/libraries/codec/Lib_EIP155Tx.sol";
+import { Lib_BytesUtils } from "@eth-optimism/contracts/libraries/utils/Lib_BytesUtils.sol";
+import { iOVM_CanonicalTransactionChain } from "@eth-optimism/contracts/iOVM/chain/iOVM_CanonicalTransactionChain.sol";
+import { OVM_StateCommitmentChain } from "@eth-optimism/contracts/OVM/chain/OVM_StateCommitmentChain.sol";
 import { L1ClaimableToken } from "./L1ClaimableToken.sol";
 
 import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";

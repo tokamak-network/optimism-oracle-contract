@@ -5,11 +5,6 @@ coverage.json
 
 #Hardhat files
 deployments
-
 cache
 artifacts
 typechain
-
-cache-ovm
-artifacts-ovm
-typechain-ovm

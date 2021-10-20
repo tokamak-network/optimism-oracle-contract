@@ -5,7 +5,7 @@ pragma abicoder v2;
 
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-import { IL2StandardERC20 } from "./optimism/libraries/standards/IL2StandardERC20.sol";
+import { IL2StandardERC20 } from "@eth-optimism/contracts/libraries/standards/IL2StandardERC20.sol";
 
 contract L2Token is IL2StandardERC20, ERC20 {
     address public override l1Token;

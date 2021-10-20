@@ -3,8 +3,8 @@
 pragma solidity >0.5.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-import { iOVM_L2ERC20Bridge } from "./optimism/iOVM/bridge/tokens/iOVM_L2ERC20Bridge.sol";
-import { IL2StandardERC20 } from "./optimism/libraries/standards/IL2StandardERC20.sol";
+import { iOVM_L2ERC20Bridge } from "@eth-optimism/contracts/iOVM/bridge/tokens/iOVM_L2ERC20Bridge.sol";
+import { IL2StandardERC20 } from "@eth-optimism/contracts/libraries/standards/IL2StandardERC20.sol";
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
