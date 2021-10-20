@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
 // @unsupported: ovm
 
-import { ERC721 } from "./ERC721.sol";
+pragma solidity >=0.7.6;
+pragma abicoder v2;
+
+import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract L1ClaimableToken is ERC721 {
 
@@ -31,31 +34,32 @@ contract L1ClaimableToken is ERC721 {
     }
 
     function mint(
-        uint256 tokenId,
-        uint256 transactionIndex,
-        address origin,
-        address l1Token,
-        address l2Token,
-        uint256 amount,
-        uint256 fee
+        uint256 _tokenId,
+        uint256 _transactionIndex,
+        address _origin,
+        address _l1Token,
+        address _l2Token,
+        uint256 _amount,
+        uint256 _fee
     )
         external
     {
         require(msg.sender == owner, "NOT_OWNER");
 
-        _mint(msg.sender, tokenId);
+        _mint(msg.sender, _tokenId);
 
-        TokenInfo storage tokenInfo = tokenInfos[tokenId];
-        tokenInfo.tokenId = tokenId;
-        tokenInfo.transactionIndex = transactionIndex;
-        tokenInfo.origin = origin;
-        tokenInfo.l1Token = l1Token;
-        tokenInfo.l2Token = l2Token;
-        tokenInfo.amount = amount;
-        tokenInfo.fee = fee;
-        tokenInfo.claimed = false;
+        tokenInfos[_tokenId] = TokenInfo({
+            tokenId: _tokenId,
+            transactionIndex: _transactionIndex,
+            origin: _origin,
+            l1Token: _l1Token,
+            l2Token: _l2Token,
+            amount: _amount,
+            fee: _fee,
+            claimed: false
+        });
 
-        emit Minted(tokenId, transactionIndex);
+        emit Minted(_tokenId, _transactionIndex);
     }
 
     function claim (uint256 tokenId) public {

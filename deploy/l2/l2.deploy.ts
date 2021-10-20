@@ -17,7 +17,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   // deploy
   const L2Token: DeployResult = await deploy("L2Token", {
-    from: user,
+    from: deployer,
     args: [
       L1Token.address,
       OVM_L2StandardBridge,
@@ -27,7 +27,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log: true,
   });
   const L2BridgeWrapper: DeployResult = await deploy("L2BridgeWrapper", {
-    from: user,
+    from: deployer,
     args: [],
     log: true,
   });
@@ -35,7 +35,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   // execute
   await execute(
     "L2BridgeWrapper",
-    { from: user, log: true },
+    { from: deployer, log: true },
     "initialize",
     OVM_L2StandardBridge,
     L1Oracle.address
