@@ -35,7 +35,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   // execute
   await execute(
     "L2BridgeWrapper",
-    { from: deployer, log: true },
+    { from: deployer, log: true, gasLimit: 200000 },
     "initialize",
     OVM_L2StandardBridge,
     L1Oracle.address

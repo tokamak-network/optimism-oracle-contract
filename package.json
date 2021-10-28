@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy:kovan": "npx hardhat deploy --tags l1 --network kovan",
+    "deploy:kovan-optimistic": "npx hardhat deploy --tags l2 --network kovan-optimistic"
   },
   "keywords": [],
   "author": "",

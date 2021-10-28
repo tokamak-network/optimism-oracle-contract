@@ -120,7 +120,7 @@ contract L1Oracle {
 
         uint256 amount = _amount.add(_fee);
         require(
-            IERC20(l1Token).transfer(owner, _amount),
+            IERC20(l1Token).transfer(owner, amount),
             "FAIL_TRANSFER"
         );
 
