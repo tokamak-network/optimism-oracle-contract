@@ -101,26 +101,29 @@ contract L1Oracle {
             Lib_OVMCodec.hashBatchHeader(_batchHeader) == scc.batches().get(_batchHeader.batchIndex),
             "INVALID_HEADER"
         );
-        // require(
-        //     scc.insideFraudProofWindow(_batchHeader),
-        //     "WITHIN_WINDOW"
-        // );
+        require(
+            scc.insideFraudProofWindow(_batchHeader),
+            "WITHIN_WINDOW"
+        );
 
-        address owner = claimableToken.ownerOf(_tokenId);
-        (, uint256 _index, , address l1Token, , uint256 _amount, uint256 _fee, bool _claimed) = claimableToken.tokenInfos(_tokenId);
+        (, uint256 _index, address origin, address l1Token, , uint256 _amount, uint256 _fee, bool _claimed) = claimableToken.tokenInfos(_tokenId);
         require(
             _claimed == false,
             "ALREADY_CLAIMED"
         );
-
         require(
             _batchHeader.prevTotalElements > _index,
             "OUT_OF_INDEX"
         );
 
+        address receipient = claimableToken.ownerOf(_tokenId);
+        if (receipient == address(this)) {
+            receipient = origin;
+        }
         uint256 amount = _amount.add(_fee);
+
         require(
-            IERC20(l1Token).transfer(owner, amount),
+            IERC20(l1Token).transfer(receipient, amount),
             "FAIL_TRANSFER"
         );
 
